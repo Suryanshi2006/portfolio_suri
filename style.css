@@ -1,0 +1,144 @@
+/* Importing Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle, #1a1a2e, #16213e);
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 50px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background: rgba(0, 0, 0, 0.9);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    font-size: 18px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+    position: relative;
+}
+
+nav a:hover {
+    color: #ff9800;
+    text-shadow: 0px 0px 10px #ff9800;
+}
+
+.glitch {
+    font-size: 2rem;
+    font-weight: 800;
+    position: relative;
+    color: white;
+    animation: glitch 1s infinite;
+}
+
+@keyframes glitch {
+    0% { text-shadow: 2px 2px #ff9800, -2px -2px #00f; }
+    50% { text-shadow: -2px -2px #ff9800, 2px 2px #00f; }
+    100% { text-shadow: 2px 2px #ff9800, -2px -2px #00f; }
+}
+
+#hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    background: linear-gradient(45deg, #ff9800, #ff3d00);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.socials a {
+    text-decoration: none;
+    color: white;
+    margin: 10px;
+    padding: 12px 20px;
+    border: 2px solid white;
+    border-radius: 50px;
+    transition: 0.3s;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.socials a:hover {
+    background: #ff9800;
+    color: black;
+    box-shadow: 0px 0px 15px #ff9800;
+}
+
+.project {
+    margin: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+    background: #ff9800;
+    color: black;
+}
+
+#extra {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    text-align: left;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+}
+
+footer {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px;
+    margin-top: 50px;
+    font-size: 14px;
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
