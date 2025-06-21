@@ -1,64 +1,74 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Typing Effect for Hero Title
+    /** 📝 Typing Effect */
     const heroText = document.querySelector(".title");
     const words = ["Full Stack Developer", "Web3 Enthusiast", "Open Source Contributor"];
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
+    let wordIndex = 0, charIndex = 0, isDeleting = false;
+
+    const cursorSpan = document.createElement("span");
+    cursorSpan.className = "cursor";
+    cursorSpan.innerText = "|";
+    heroText.after(cursorSpan);
 
     function typeEffect() {
-        let currentWord = words[wordIndex];
-        let displayText = isDeleting
-            ? currentWord.substring(0, charIndex--)
-            : currentWord.substring(0, charIndex++);
+        const current = words[wordIndex];
+        heroText.textContent = isDeleting
+            ? current.substring(0, --charIndex)
+            : current.substring(0, ++charIndex);
 
-        heroText.innerHTML = displayText;
-
-        if (!isDeleting && charIndex === currentWord.length) {
-            isDeleting = true;
-            setTimeout(typeEffect, 1000);
+        if (!isDeleting && charIndex === current.length) {
+            setTimeout(() => isDeleting = true, 1000);
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
             wordIndex = (wordIndex + 1) % words.length;
-            setTimeout(typeEffect, 500);
-        } else {
-            setTimeout(typeEffect, isDeleting ? 50 : 100);
         }
+
+        setTimeout(typeEffect, isDeleting ? 50 : 100);
     }
 
-    typeEffect(); // Start typing effect
+    typeEffect();
 
-    // Smooth Scroll for Navigation Links
-    document.querySelectorAll("nav a").forEach(anchor => {
-        anchor.addEventListener("click", function(e) {
+    /** 🔗 Smooth Scroll */
+    document.querySelectorAll("nav a[href^='#']").forEach(link => {
+        link.addEventListener("click", (e) => {
             e.preventDefault();
-            const targetSection = document.querySelector(this.getAttribute("href"));
-            targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            const target = document.querySelector(link.getAttribute("href"));
+            if (target) {
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
         });
     });
 
-    // Hover Glow Effect on Projects
-    document.querySelectorAll(".project").forEach(project => {
-        project.addEventListener("mousemove", (e) => {
-            const { left, top, width, height } = project.getBoundingClientRect();
-            const x = e.clientX - left - width / 2;
-            const y = e.clientY - top - height / 2;
+    /** 🌟 Project Hover Glow */
+    const projects = document.querySelectorAll(".project");
 
-            project.style.transform = `perspective(1000px) rotateY(${x / 25}deg) rotateX(${-y / 25}deg)`;
+    projects.forEach(project => {
+        project.style.transition = "transform 0.1s ease";
+
+        project.addEventListener("mousemove", e => {
+            const rect = project.getBoundingClientRect();
+            const x = (e.clientX - rect.left - rect.width / 2) / 25;
+            const y = -(e.clientY - rect.top - rect.height / 2) / 25;
+            requestAnimationFrame(() => {
+                project.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${y}deg)`;
+            });
         });
 
         project.addEventListener("mouseleave", () => {
-            project.style.transform = "perspective(1000px) rotateY(0deg) rotateX(0deg)";
+            requestAnimationFrame(() => {
+                project.style.transform = "perspective(1000px) rotateY(0deg) rotateX(0deg)";
+            });
         });
     });
 
-    // Dark Mode Toggle
+    /** 🌗 Dark Mode Toggle */
     const themeToggle = document.createElement("button");
     themeToggle.innerText = "🌙";
+    themeToggle.setAttribute("aria-label", "Toggle Dark Mode");
     themeToggle.style.cssText = `
-        position: fixed; top: 20px; right: 20px; font-size: 20px; padding: 10px;
-        background: white; color: black; border: none; cursor: pointer; border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5); transition: 0.3s;
+        position: fixed; top: 20px; right: 20px; font-size: 20px;
+        padding: 10px; background: white; color: black; border: none;
+        cursor: pointer; border-radius: 10px; z-index: 999;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2); transition: 0.3s;
     `;
     document.body.appendChild(themeToggle);
 
@@ -67,12 +77,14 @@ document.addEventListener("DOMContentLoaded", () => {
         themeToggle.innerText = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
     });
 
-    // Apply Dark Mode Styles
+    /** 🎨 Dark Mode Styles */
     const darkModeStyle = document.createElement("style");
     darkModeStyle.innerHTML = `
-        .dark-mode { background: #0d0d0d; color: white; }
+        .dark-mode { background: #0d0d0d; color: white; transition: background 0.3s, color 0.3s; }
         .dark-mode header { background: rgba(20, 20, 20, 0.95); }
-        .dark-mode .project { background: rgba(255, 255, 255, 0.1); }
+        .dark-mode .project { background: rgba(255, 255, 255, 0.05); transition: background 0.3s; }
+        .cursor { animation: blink 1s infinite; margin-left: 2px; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     `;
     document.head.appendChild(darkModeStyle);
 });
